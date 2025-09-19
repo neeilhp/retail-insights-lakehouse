@@ -23,6 +23,10 @@ jobs:
     - name: Install dependencies
       run: |
         pip install pandas
+    
+    - name: Install dependencies
+      run: |
+        pip install pandas pyspark
 
     - name: Run ETL script
       run: |
@@ -32,6 +36,4 @@ jobs:
         test -f curated/sales_transformed.csv
         test -f curated/sales_enriched.csv
 
-    - name: Install dependencies
-      run: |
-        pip install pandas pyspark
+    
