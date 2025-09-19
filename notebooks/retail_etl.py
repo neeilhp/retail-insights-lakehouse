@@ -1,10 +1,16 @@
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, round, when, lit
-import pandas as pd
+# retail_etl.py
+# ETL pipeline for retail sales data using PySpark
 
 try:
     from pyspark.sql import SparkSession
+    from pyspark.sql.functions import col, round, when, lit
+    import pandas as pd
     spark = SparkSession.builder.appName("RetailETL").getOrCreate()
+    print("✅ Spark session created")
+    
+    # Your Spark logic here
+    # Example: df = spark.read.csv("data/sales.csv", header=True, inferSchema=True)
+
 except ImportError:
     print("⚠️ PySpark not available — skipping Spark logic in CI.")
 
