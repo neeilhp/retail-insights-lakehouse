@@ -22,7 +22,10 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install pandas pyspark
+        python -m pip install --upgrade pip
+        pip install --no-cache-dir pandas pyspark
+        python -c "import pyspark; print('PySpark installed successfully')"
+
 
     - name: Run ETL script
       run: |
