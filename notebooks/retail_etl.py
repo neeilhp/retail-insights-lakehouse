@@ -2,11 +2,11 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, round, when, lit
 import pandas as pd
 
-
-
-# Initialize Spark
-spark = SparkSession.builder.appName("Retail ETL").getOrCreate()
-spark.sparkContext.setLogLevel("ERROR")
+try:
+    from pyspark.sql import SparkSession
+    spark = SparkSession.builder.appName("RetailETL").getOrCreate()
+except ImportError:
+    print("⚠️ PySpark not available — skipping Spark logic in CI.")
 
 # Load raw data
 sales = spark.read.csv("C:/Users/neelp/Portfolio/retail-insights-lakehouse/data/sales_data.csv", header=True, inferSchema=True)
