@@ -22,10 +22,6 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install pandas
-    
-    - name: Install dependencies
-      run: |
         pip install pandas pyspark
 
     - name: Run ETL script
