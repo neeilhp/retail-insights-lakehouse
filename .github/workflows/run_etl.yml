@@ -20,20 +20,23 @@ jobs:
       with:
         python-version: '3.11'
 
+    - name: Install Java (required for PySpark)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y openjdk-11-jdk
+        echo "JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $GITHUB_ENV
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install --no-cache-dir pandas pyspark
         python -c "import pyspark; print('✅ PySpark is installed and ready')"
 
-
-
     - name: Run ETL script
       run: |
         python notebooks/retail_etl.py
+
     - name: Verify output files
       run: |
         test -f curated/sales_transformed.csv
         test -f curated/sales_enriched.csv
-
-    
