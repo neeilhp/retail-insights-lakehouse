@@ -15,7 +15,28 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Build and run Docker container
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '11'
+
+    - name: Install dependencies
       run: |
-        docker build -t retail-etl .
-        docker run retail-etl
+        pip install --upgrade pip
+        pip install pandas pyspark
+        python -c "import pyspark; print('✅ PySpark is installed and ready')"
+
+    - name: Run ETL script
+      run: |
+        python notebooks/retail_etl.py
+
+    - name: Verify output files
+      run: |
+        test -f curated/sales_transformed.csv
+        test -f curated/sales_enriched.csv
