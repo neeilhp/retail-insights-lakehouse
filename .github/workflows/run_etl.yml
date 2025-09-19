@@ -1,0 +1,29 @@
+name: Run ETL Pipeline
+
+on:
+  push:
+    paths:
+      - notebooks/retail_etl.py
+      - data/**
+      - .github/workflows/run_etl.yml
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install pandas
+
+    - name: Run ETL script
+      run: |
+        python notebooks/retail_etl.py
