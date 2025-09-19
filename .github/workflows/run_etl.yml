@@ -31,6 +31,9 @@ jobs:
         pip install --upgrade pip
         pip install pandas pyspark
         python -c "import pyspark; print('✅ PySpark is installed and ready')"
+        
+    - name: Install pyspark
+      run: pip install pyspark    
 
     - name: Run ETL script
       run: |
