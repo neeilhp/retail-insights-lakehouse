@@ -741,3 +741,4 @@ sale_id,product_id,customer_id,store_id,date,quantity,amount,discounted_amount,b
 220,37,77,8,2025-07-14,5,859.95,773.96,Yes
 881,35,107,8,2024-09-30,5,404.1,363.69,Yes
 935,26,106,5,2024-12-02,1,483.98,435.58,No
+   
