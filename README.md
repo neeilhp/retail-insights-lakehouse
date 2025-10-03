@@ -4,6 +4,22 @@
 
 This project simulates a modular data pipeline for retail analytics using PySpark and pandas. It demonstrates key ETL concepts, schema modeling, and enrichment logic — all designed for reproducibility and clarity. The pipeline transforms raw sales data, applies business rules, joins with dimension tables, and outputs clean CSVs ready for analysis or dashboarding.
 
+
+🔗 Live Dashboard
+[View on Looker Studio](https://lookerstudio.google.com/reporting/591680cc-d6bb-4c9f-ba8e-e1f41821a26c/page/iILaF)
+
+
+📊 Key Features
+- Modular visuals across 6 sections
+- STAR-style captions for business storytelling
+- Time trend analysis and loyalty tier breakdown
+- Built from Athena queries and S3 outputs
+
+🧠 Business Insights
+- Silver-tier customers contribute 41.5% of revenue
+- Bulk orders drive majority of high-value transactions
+- Revenue dipped on [insert date] — potential inventory lag
+
 🧠 Business Context
 
 Retailers often track sales across multiple stores, products, and customers. This pipeline answers questions like:
@@ -25,6 +41,9 @@ VS Code for development
 Windows 11 + JDK 17 with Hadoop workaround (winutils.exe)
 
 GitHub for project structure and documentation
+
+AWS Athena + S3
+Google Sheets + Looker Studio
 
 🧪 Pipeline Steps
 1. Raw Data Generation

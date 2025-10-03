@@ -1,6 +1,7 @@
 # retail_etl.py
 # ETL pipeline for retail sales data using PySpark
 
+
 try:
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import col, round, when, lit
@@ -21,10 +22,15 @@ stores = spark.read.csv("C:/Users/neelp/Portfolio/retail-insights-lakehouse/data
 customers = spark.read.csv("C:/Users/neelp/Portfolio/retail-insights-lakehouse/data/customers.csv", header=True, inferSchema=True)
 
 # Data Cleaning and Transformation
+from pyspark.sql.functions import to_date, col
+
+from pyspark.sql.functions import col, round, when, to_date
+
 sales_cleaned = sales \
     .withColumn("amount", round(col("amount"), 2)) \
     .withColumn("quantity", when(col("quantity") < 0, 0).otherwise(col("quantity"))) \
-    .dropna() \
+    .withColumn("date", to_date(col("date"), "yyyy-MM-dd")) \
+    .dropna(subset=["date", "amount", "quantity"]) \
     .dropDuplicates()
 
 
@@ -43,10 +49,18 @@ sales_flagged = sales_discounted.withColumn(
 
 # Save curated data
 import os
+
 df = sales_flagged.toPandas()
+
+# Clean the date column in Pandas
+df["date"] = pd.to_datetime(df["date"], errors="coerce")
+
+# Drop rows with invalid dates or missing critical values
+df = df.dropna(subset=["date", "amount", "quantity"])
+
 output_dir = "C:/Users/neelp/Portfolio/retail-insights-lakehouse/curated"
 os.makedirs(output_dir, exist_ok=True)
-df.to_csv(f"{output_dir}/sales_transformed.csv", index=False)
+df.to_csv(f"{output_dir}/sales_transformed.csv", index=False, encoding="utf-8")
 
 
 
@@ -74,9 +88,14 @@ sales_final = sales_enriched.select(
 
 # Save enriched data
 import os
-df = sales_final.toPandas()
-output_dir = "C:/Users/neelp/Portfolio/retail-insights-lakehouse/curated"
-os.makedirs(output_dir, exist_ok=True)
+df_enriched = sales_final.toPandas()
+
+# Clean the date column again
+df_enriched["date"] = pd.to_datetime(df_enriched["date"], errors="coerce")
+df_enriched = df_enriched.dropna(subset=["date", "amount", "quantity"])
+
+print("Pandas row count:", len(df_enriched))
+df_enriched.to_csv(f"{output_dir}/sales_enriched.csv", index=False, encoding="utf-8")
 
 # Verify data
 print("Row count:", sales_final.count())
